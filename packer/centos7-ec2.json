@@ -1,0 +1,26 @@
+{
+    "provisioners": [
+        {
+            "type": "ansible",
+            "playbook_file": "./playbook.yml",
+            "ansible_env_vars": ["ANSIBLE_SSH_ARGS='-o ControlMaster=auto -o ControlPersist=10s'", "ANSIBLE_REMOTE_TEMP=/tmp"]
+        }
+    ],
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "access_key": "",
+            "secret_key": "",
+            "region": "eu-central-1",
+            "source_ami": "ami-04cf43aca3e6f3de3",
+            "instance_type": "t2.micro",
+            "ssh_username": "centos",
+            "ami_name": "hello_web_{{timestamp}}"
+        },
+        {
+            "type": "docker",
+            "image": "centos",
+            "export_path": "image.tar"
+        }
+    ]
+}

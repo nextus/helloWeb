@@ -1,0 +1,46 @@
+---
+
+- name: Install software
+  yum: name={{ packages }} state=present update_cache=yes
+  vars:
+    packages:
+    - libselinux-python
+    - curl
+    - telnet
+    - tcpdump
+    - strace
+    - openssh-clients
+    - openssh-server
+    - rsync
+  when: ansible_distribution == 'CentOS'
+
+- name: Disable SELinux
+  selinux:
+    state: disabled
+  become: True
+  when: ansible_selinux == True
+
+- name: Set timezone to MSK
+  timezone:
+    name: Europe/Moscow
+
+- name: Create sysops users
+  user:
+    name: "{{ item }}"
+    comment: "sysops user"
+    shell: /bin/bash
+    groups: adm,wheel
+  with_items:
+    - nextus
+
+- name: Copy ssh public keys
+  authorized_key:
+    user: "{{ item }}"
+    key: "{{ lookup('file', 'files/pubkeys/' + item, errors='ignore') }}"
+  with_items:
+    - nextus
+
+- name: Start openssh server
+  service:
+    name: sshd
+    enabled: yes

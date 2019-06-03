@@ -1,0 +1,8 @@
+---
+
+BIN_NAME: helloWeb
+BIN_SOURCE_PATH: "{{ GOPATH }}/bin/{{ BIN_NAME }}"
+PROJECT_DIRECTORY: /opt/helloWeb
+PRODUCTION_USER: webapp
+PRODUCTION_GROUP: webapp
+INSTANCE_PORT: 8091

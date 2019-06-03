@@ -1,0 +1,11 @@
+---
+
+- name: set up helloWeb app container
+  hosts: all
+  remote_user: centos
+  become: yes
+  vars:
+    GOPATH: "{{ lookup('env','GOPATH') }}"
+  roles:
+    - common
+    - hello_web

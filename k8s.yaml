@@ -1,0 +1,29 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-web-deployment
+  labels:
+    app: hello-web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-web
+  template:
+    metadata:
+      labels:
+        app: hello-web
+    spec:
+      containers:
+      - name: hello-web
+        image: netxus/hello-web:latest
+        ports:
+        - containerPort: 8091
+        livenessProbe:
+          httpGet:
+            path: /robots.txt
+            port: 8091
+          initialDelaySeconds: 2
+          periodSeconds: 5

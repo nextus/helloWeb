@@ -1,0 +1,15 @@
+[Unit]
+Description=Simple web server
+
+[Service]
+Type=simple
+ExecStart={{ PROJECT_DIRECTORY }}/{{ BIN_NAME }} -port {{ INSTANCE_PORT }}
+
+User=nobody
+Group=nobody
+
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target
